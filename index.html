@@ -1,10 +1,78 @@
-ah-grafica-site/
-│
-├── index.html   ← (esse arquivo que você já tem)
-└── assets/
-    ├── AH-GRAFICA-LOGO-NOVA-preto.png
-    ├── apostila.png
-    ├── banner.png
-    ├── cardapio.png
-    ├── carimbo.png
-    └── placeholder.png
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AH Gráfica — Loja</title>
+  <link rel="icon" href="assets/AH-GRAFICA-LOGO-NOVA-preto.png">
+  <style>
+    :root{--primary:#111;--accent:#21bf73;--muted:#666;--card-bg:#fff;--bg:#f6f7fb;--max-width:1200px;}
+    *{box-sizing:border-box}body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:var(--bg); color:#222}
+    .container{max-width:var(--max-width); margin:0 auto; padding:18px}
+    header{background:#fff; border-bottom:1px solid #e6e6e6}
+    .topbar{display:flex; align-items:center; gap:18px; padding:14px 18px}
+    #site-logo{height:56px}.search{flex:1}.search input{width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:4px}
+    .nav{display:flex; gap:16px; align-items:center}.badge{background:var(--primary); color:#fff; padding:6px 10px; border-radius:4px; font-weight:600}
+    main{display:flex; gap:24px; padding:24px 0}
+    .sidebar{width:260px; background:#fff; border:1px solid #eee; border-radius:6px; padding:12px}
+    .content{flex:1}.tabs{display:flex; gap:18px; align-items:flex-end}
+    .tabs button{background:none; border:none; font-weight:700; padding:8px 0; cursor:pointer}
+    .tabs button.active{border-bottom:3px solid var(--primary)}
+    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; margin-top:18px}
+    .card{background:var(--card-bg); border-radius:8px; padding:12px; box-shadow:0 1px 4px rgba(10,10,10,0.04); display:flex; flex-direction:column}
+    .card img{height:150px; object-fit:contain; align-self:center}
+    .price{font-weight:800; color:#0b6a9e}.buy-row{margin-top:auto; display:flex; gap:8px}
+    .btn{padding:8px 10px; border-radius:6px; border:none; cursor:pointer}
+    .btn-whatsapp{background:#12a752; color:#fff; flex:1}footer{padding:18px; text-align:center; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <img id="site-logo" src="assets/AH-GRAFICA-LOGO-NOVA-preto.png" alt="AH Gráfica Logo" />
+      <div class="search">
+        <input id="search" placeholder="Pesquisar por produtos" />
+      </div>
+      <div class="nav">
+        <div class="badge">ENVIA PARA TODO BRASIL</div>
+        <button id="open-admin" class="btn">Painel (Cadastrar)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside class="sidebar">
+      <h3>Categorias</h3>
+      <div id="categories"></div>
+    </aside>
+    <section class="content">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <div class="tabs">
+          <button class="active" data-tab="mais">MAIS VENDIDOS</button>
+          <button data-tab="destaques">DESTAQUES</button>
+        </div>
+        <div>
+          <label>WhatsApp:</label>
+          <input id="whatsapp-number" placeholder="+55 84 99999-9999" style="padding:6px;border:1px solid #ddd;border-radius:6px" />
+        </div>
+      </div>
+      <div class="grid" id="products-grid"></div>
+    </section>
+  </main>
+
+  <footer>AH Gráfica — Impressões e soluções personalizadas para todo o Brasil.</footer>
+
+  <script>
+    const defaultProducts = [
+      {id:'apostila', name:'Apostila', price:12.50, type:'unit', img:'assets/apostila.png', category:'Apostilas'},
+      {id:'banner', name:'Banner Lona', price:85.00, type:'linear', img:'assets/banner.png', category:'Banner'},
+      {id:'cardapio', name:'Cardápio Plastificado', price:9.90, type:'unit', img:'assets/cardapio.png', category:'Cardápios'},
+      {id:'carimbo', name:'Carimbo Assinatura 4911', price:45.00, type:'unit', img:'assets/carimbo.png', category:'Carimbos'}
+    ];
+
+    function loadProducts(){const raw=localStorage.getItem('ah_produtos');if(!raw){localStorage.setItem('ah_produtos',JSON.stringify(defaultProducts));return defaultProducts;}try{return JSON.parse(raw)}catch(e){localStorage.setItem('ah_produtos',JSON.stringify(defaultProducts));return defaultProducts}}
+    function renderProducts(){const grid=document.getElementById('products-grid');const search=document.getElementById('search').value.toLowerCase();const products=loadProducts().filter(p=>p.name.toLowerCase().includes(search));grid.innerHTML='';const phone=(document.getElementById('whatsapp-number').value||'').replace(/\D/g,'');products.forEach(p=>{const card=document.createElement('div');card.className='card';card.innerHTML=`<img src="${p.img}" alt="${p.name}" onerror="this.src='assets/placeholder.png'" /><h4>${p.name}</h4><div>${p.type==='linear'?'Preço por metro linear':'Preço por unidade'}</div><div class='price'>R$ ${p.price.toFixed(2).replace('.', ',')}</div><div class='buy-row'><button class='btn btn-whatsapp'>Compre pelo WhatsApp</button></div>`;card.querySelector('.btn-whatsapp').onclick=()=>{if(!phone){alert('Informe o número de WhatsApp no topo do site.');return;}const msg=encodeURIComponent(`Olá! Gostaria de comprar o produto ${p.name} no valor de R$ ${p.price.toFixed(2)}`);window.open(`https://wa.me/${phone}?text=${msg}`,'_blank');};grid.appendChild(card);});}
+    document.getElementById('search').addEventListener('input',renderProducts);renderProducts();
+  </script>
+</body>
+</html>
