@@ -1,0 +1,45 @@
+[index.html](https://github.com/user-attachments/files/22972303/index.html)
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AH Gráfica</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; color: #222; text-align: center; padding: 40px; }
+    header, footer { background: #000; color: #fff; padding: 15px 0; }
+    .produtos { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px; }
+    .produto { background: #fff; border-radius: 10px; padding: 10px; width: 200px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .produto img { width: 100%; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AH Gráfica</h1>
+    <p>CNPJ: 48.241.372/0001-36 | 📧 ahgraficaproducao@gmail.com | 📞 (84) 99819-0371</p>
+  </header>
+
+  <h2>Produtos Fictícios</h2>
+  <div class="produtos">
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150?text=Sacola+Personalizada" alt="Sacola Personalizada">
+      <h3>Sacola Personalizada</h3>
+      <p>R$ 2,50 / unid</p>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150?text=Adesivo+Promocional" alt="Adesivo Promocional">
+      <h3>Adesivo Promocional</h3>
+      <p>R$ 1,00 / unid</p>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150?text=Boca+de+Palhaço" alt="Boca de Palhaço">
+      <h3>Boca de Palhaço</h3>
+      <p>R$ 3,00 / unid</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 AH Gráfica — Todos os direitos reservados</p>
+  </footer>
+</body>
+</html>
